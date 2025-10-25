@@ -1,56 +1,43 @@
 <template>
-  <div
-    class="flex flex-col min-h-screen bg-gradient-to-b from-indigo-700 via-purple-700 to-indigo-900 text-white overflow-hidden"
-  >
+  <div class="flex flex-col min-h-screen bg-gradient-to-b from-indigo-700 via-purple-700 to-indigo-900 text-white overflow-hidden">
     <Navbar />
 
-    <!-- glowing background accents -->
     <div class="absolute inset-0 -z-10">
-      <div
-        class="absolute top-0 left-0 w-96 h-96 bg-indigo-500 rounded-full blur-3xl opacity-30"
-      ></div>
-      <div
-        class="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-purple-500 rounded-full blur-3xl opacity-30"
-      ></div>
+      <div class="absolute top-0 left-0 w-96 h-96 bg-indigo-500 rounded-full blur-3xl opacity-30"></div>
+      <div class="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-purple-500 rounded-full blur-3xl opacity-30"></div>
     </div>
 
     <main class="flex-grow py-16 px-6 max-w-[1440px] mx-auto">
       <h1 class="text-4xl font-bold text-center mb-12">Ticket Management</h1>
 
       <div class="grid lg:grid-cols-2 gap-10">
-        <!-- FORM -->
-        <section
-          class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl"
-        >
+        <!-- form -->
+        <section class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
           <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
             <span v-if="editMode">✏️ Edit Ticket</span>
             <span v-else>➕ Create Ticket</span>
           </h2>
-
           <form @submit.prevent="handleSubmit" class="space-y-5">
             <div>
-              <label class="block mb-1 text-sm">Title *</label>
+              <label class="block text-sm mb-1">Title *</label>
               <input
                 v-model="form.title"
                 type="text"
                 class="w-full p-3 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Ticket title"
+                placeholder="Enter title"
               />
               <div v-if="titleError" class="text-red-400 text-sm mt-1">{{ titleError }}</div>
             </div>
-
             <div>
-              <label class="block mb-1 text-sm">Description</label>
+              <label class="block text-sm mb-1">Description</label>
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full p-3 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Optional details..."
               ></textarea>
             </div>
-
             <div>
-              <label class="block mb-1 text-sm">Status *</label>
+              <label class="block text-sm mb-1">Status *</label>
               <select
                 v-model="form.status"
                 class="w-full p-3 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -60,7 +47,6 @@
                 <option value="closed">Closed</option>
               </select>
             </div>
-
             <div class="flex gap-3">
               <button
                 type="submit"
@@ -68,7 +54,6 @@
               >
                 {{ editMode ? "Update" : "Add Ticket" }}
               </button>
-
               <button
                 v-if="editMode"
                 @click="resetForm"
@@ -81,15 +66,14 @@
           </form>
         </section>
 
-        <!-- TICKETS LIST -->
+        <!-- list -->
         <section>
           <div
             v-if="tickets.length === 0"
-            class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-10 text-center text-white/70"
+            class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-10 text-center"
           >
-            No tickets yet. Create one to get started!
+            <p class="text-white/70">No tickets yet. Create one!</p>
           </div>
-
           <div v-else class="grid sm:grid-cols-2 gap-6">
             <div
               v-for="t in tickets"
@@ -105,25 +89,21 @@
                   {{ t.status.replace('_', ' ') }}
                 </span>
               </div>
-
               <p v-if="t.description" class="text-sm text-white/80 mb-3">
                 {{ t.description }}
               </p>
-
-              <div
-                class="flex justify-between items-center text-sm text-white/60"
-              >
+              <div class="flex justify-between text-sm text-white/60">
                 <span>{{ t.createdAt }}</span>
                 <div class="flex gap-3">
                   <button
                     @click="editTicket(t)"
-                    class="hover:text-blue-300 focus:ring-2 focus:ring-blue-400 rounded"
+                    class="hover:text-blue-300 transition"
                   >
                     ✏️
                   </button>
                   <button
                     @click="deleteTicket(t.id)"
-                    class="hover:text-red-400 focus:ring-2 focus:ring-red-400 rounded"
+                    class="hover:text-red-400 transition"
                   >
                     🗑️
                   </button>

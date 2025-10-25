@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-// Nothing yet – layout handled by pages
+// Layout handled by individual pages
 </script>
